@@ -19,7 +19,8 @@ To run it locally you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envir
 
 To run from docker you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` environment variables manually:
 
-- `./build.sh your_docker_username`.
-- `SKIP_HTTP='' EKS_HEALTH_PORT=8880 PG_SSL=disable PG_PORT=5432 PG_USER=postgres PG_DB=postgres PG_PASS=... ES_PORT=9200 ./docker_run.sh`.
+- Requires Linux and Go tools installed, need to be done once (or after any changes to go source code): `./build.sh your_docker_username`.
+- Alternatively you can just pull ready image: `./pull.sh docker_username`.
+- `SKIP_HTTP='' EKS_HEALTH_PORT=8880 PG_SSL=disable PG_PORT=5432 PG_USER=postgres PG_DB=postgres PG_PASS=... ES_PORT=9200 ./docker_run.sh docker_username`.
 - Go to `http://localhost:8880`.
 - Finally `docker container ls`, look for `ekshealthtest`, `docker stop ekshealthtest_container_id`.
