@@ -57,7 +57,8 @@ func PgHealth() (string, int) {
 	connectionStringRedacted := strings.Replace(connectionString, pgPass, pgPassRedacted, -1)
 	outStr := "Postgres connection string: " + connectionStringRedacted + "\n"
 	con, err := sql.Open("postgres", connectionString)
-	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", con)
+	conRedacted := strings.Replace(fmt.Sprintf("%+v", con), pgPass, pgPassRedacted, -1)
+	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", conRedacted)
 	if err != nil {
 		outStr += fmt.Sprintf("Error: '%+v'\n", err)
 		errs++
