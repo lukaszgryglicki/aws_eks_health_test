@@ -1,13 +1,42 @@
 package ekshealthtest
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/lib/pq" // As suggested by lib/pq driver
+	"github.com/olivere/elastic"
 )
+
+func ESHealth() (string, int) {
+	errs := 0
+	esHost := os.Getenv("ES_HOST")
+	esPort := os.Getenv("ES_PORT")
+	connectionString := "http://" + esHost + ":" + esPort
+	connectionStringRedacted := connectionString
+	outStr := "ElasticSearch connection string: " + connectionStringRedacted + "\n"
+	ctx := context.Background()
+	client, err := elastic.NewClient(elastic.SetURL(connectionString))
+	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", client)
+	if err != nil {
+		outStr += fmt.Sprintf("Error: '%+v'\n", err)
+		errs++
+		return outStr, errs
+	}
+	info, code, err := client.Ping(connectionString).Do(ctx)
+	outStr += fmt.Sprintf("Ping:\nInfo: '%+v'\nCode: '%+v'\n", info, code)
+	if err != nil {
+		outStr += fmt.Sprintf("Error: '%+v'\n", err)
+		errs++
+		return outStr, errs
+	}
+	outStr += fmt.Sprintf("ElasticSearch version %s\n", info.Version.Number)
+	return outStr, errs
+}
 
 func PgHealth() (string, int) {
 	errs := 0
@@ -20,7 +49,7 @@ func PgHealth() (string, int) {
 	pgSSL := os.Getenv("PG_SSL")
 	pgPassRedacted := fmt.Sprintf("len=%d", len(pgPass))
 	connectionString := "client_encoding=UTF8 sslmode='" + pgSSL + "' host='" + pgHost + "' port=" + pgPort + " dbname='" + pgDB + "' user='" + pgUser + "' password='" + pgPass + "'"
-	connectionStringRedacted := "client_encoding=UTF8 sslmode='" + pgSSL + "' host='" + pgHost + "' port=" + pgPort + " dbname='" + pgDB + "' user='" + pgUser + "' password='" + pgPassRedacted + "'"
+	connectionStringRedacted := strings.Replace(connectionString, pgPass, pgPassRedacted, -1)
 	outStr := "Postgres connection string: " + connectionStringRedacted + "\n"
 	con, err := sql.Open("postgres", connectionString)
 	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", con)

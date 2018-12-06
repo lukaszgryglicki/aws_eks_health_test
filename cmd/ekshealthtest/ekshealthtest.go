@@ -13,7 +13,7 @@ type handlerContext struct {
 }
 
 func (hctx *handlerContext) getStatus(w http.ResponseWriter, r *http.Request) {
-	str := fmt.Sprintf("%s\n\nPostgres errors: %d\nElasticSearch errors: %d\n", hctx.status, hctx.errs[0], hctx.errs[0])
+	str := fmt.Sprintf("%s\n\nPostgres errors: %d\nElasticSearch errors: %d\n", hctx.status, hctx.errs[0], hctx.errs[1])
 	w.Write([]byte(str))
 }
 
@@ -26,8 +26,12 @@ func outputStatus(status string, errs []int) {
 	}
 	fmt.Printf(
 		"Status:\n%s\nPostgres errors: %d\nElasticSearch errors: %d\nCreating HTTP handler on %s\n",
-		status, errs[0], errs[0], port,
+		status, errs[0], errs[1], port,
 	)
+	if os.Getenv("SKIP_HTTP") != "" {
+		fmt.Printf("Skipped HTTP server due to SKIP_HTTP\n")
+		return
+	}
 	hctx.status = status
 	hctx.errs = errs
 	http.HandleFunc("/", hctx.getStatus)
@@ -41,6 +45,9 @@ func main() {
 	status := ""
 	errs := []int{}
 	result, nerrs := lib.PgHealth()
+	status += result
+	errs = append(errs, nerrs)
+	result, nerrs = lib.ESHealth()
 	status += result
 	errs = append(errs, nerrs)
 	outputStatus(status, errs)

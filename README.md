@@ -13,4 +13,4 @@ To run it locally you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envir
 - Stores results in the string and shows them on the console output and also available via HTTP on `localhost` port from `EKS_HEALTH_PORT` variable.
 - Passwords are redacted, displays `len=N` instead (where N is password length).
 - If no `EKS_HEALTH_PORT` is specified, default `8888` is used.
-- So exampel local run can be: `EKS_HEALTH_PORT=8088 PG_SSL=disable PG_HOST=localhost PG_PORT=5432 PG_USER=postgres PG_DB=devstats PG_PASS=... ./ekshealthtest`, then go to `http://localhost:8088
+- So exampel local run can be: `SKIP_HTTP='' EKS_HEALTH_PORT=8088 PG_SSL=disable PG_HOST=localhost PG_PORT=5432 PG_USER=gha_admin PG_DB=devstats PG_PASS=...  ES_HOST=localhost ES_PORT=9200 ./ekshealthtest`, then go to `http://localhost:8088
