@@ -8,7 +8,8 @@ To run it locally you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envir
 
 - `make`
 - `./ekshealthtest`
-- Attempts to connetc to postgres using `PG_SSL`, `PG_HOST`, `PG_PORT`, `PG_USER`, `PG_DB` and `PG_PASS` variables.
+- Attempts to connect to postgres using `PG_SSL`, `PG_HOST`, `PG_PORT`, `PG_USER`, `PG_DB` and `PG_PASS` variables.
+- It is not assuming any defaults for those variables, it needs all of them to be passed - this is to test infra ability to pass variables between moving parts.
 - Stores results in the string and shows them on the console output and also available via HTTP on `localhost` port from `EKS_HEALTH_PORT` variable.
 - Passwords are redacted, displays `len=N` instead (where N is password length).
 - If no `EKS_HEALTH_PORT` is specified, default `8888` is used.
