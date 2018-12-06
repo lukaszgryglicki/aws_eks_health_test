@@ -28,8 +28,9 @@ func outputStatus(status string, errs []int) {
 		"Status:\n%s\nPostgres errors: %d\nElasticSearch errors: %d\nCreating HTTP handler on %s\n",
 		status, errs[0], errs[1], port,
 	)
-	if os.Getenv("SKIP_HTTP") != "" {
-		fmt.Printf("Skipped HTTP server due to SKIP_HTTP\n")
+	skipHttp := os.Getenv("SKIP_HTTP")
+	if skipHttp != "" {
+		fmt.Printf("Skipped HTTP server due to SKIP_HTTP: %s\n", skipHttp)
 		return
 	}
 	hctx.status = status
