@@ -21,7 +21,11 @@ func ESHealth() (string, int) {
 	connectionStringRedacted := connectionString
 	outStr := "ElasticSearch connection string: " + connectionStringRedacted + "\n"
 	ctx := context.Background()
-	client, err := elastic.NewClient(elastic.SetURL(connectionString))
+	client, err := elastic.NewClient(
+		elastic.SetURL(connectionString),
+		elastic.SetSniff(false),
+		//elastic.SetScheme("https"),
+	)
 	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", client)
 	if err != nil {
 		outStr += fmt.Sprintf("Error: '%+v'\n", err)
