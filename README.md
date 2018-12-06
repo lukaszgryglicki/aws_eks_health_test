@@ -15,7 +15,7 @@ To run it locally you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envir
 - If no `EKS_HEALTH_PORT` is specified, default `8888` is used.
 - So example local run can be: `SKIP_HTTP='' EKS_HEALTH_PORT=8088 PG_SSL=disable PG_HOST=localhost PG_PORT=5432 PG_USER=gha_admin PG_DB=devstats PG_PASS=...  ES_HOST=localhost ES_PORT=9200 ./ekshealthtest`, then go to `http://localhost:8088`.
 
-# Running from docker
+# Running from the docker
 
 To run from docker you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` environment variables manually:
 
@@ -24,3 +24,7 @@ To run from docker you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envi
 - `SKIP_HTTP='' EKS_HEALTH_PORT=8880 PG_SSL=disable PG_PORT=5432 PG_USER=postgres PG_DB=postgres PG_PASS=... ES_PORT=9200 ./docker_run.sh docker_username`.
 - Go to `http://localhost:8880`.
 - Finally `docker container ls`, look for `ekshealthtest`, `docker stop ekshealthtest_container_id`.
+
+# Running from docker from the AWS instance
+
+- `SKIP_HTTP=1 PG_SSL=disable PG_HOST="aurora_db_url" PG_PORT=5432 PG_USER=sa PG_DB=postgres PG_PASS="aurora_db_pass" ES_HOST="localhost" ES_PORT=9200 ./docker_run.sh docker_username`

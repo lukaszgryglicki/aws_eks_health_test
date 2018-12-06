@@ -13,3 +13,6 @@
 
 # Binaries
 /ekshealthtest
+
+# Sensitive
+/health_on_aws.sh
