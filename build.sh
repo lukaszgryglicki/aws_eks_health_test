@@ -6,6 +6,6 @@ then
 fi
 make || exit 2
 docker login || exit 3
-docker build -t ekshealthtest . || exit 4
-docker tag ekshealthtest "${1}/ekshealthtest" || exit 5
+docker build -t "${1}/ekshealthtest" . || exit 4
+docker tag "${1}/ekshealthtest" "${1}/ekshealthtest" || exit 5
 docker push "${1}/ekshealthtest" || exit 6

@@ -14,9 +14,10 @@ import (
 
 func ESHealth() (string, int) {
 	errs := 0
+	esProto := os.Getenv("ES_PROTO")
 	esHost := os.Getenv("ES_HOST")
 	esPort := os.Getenv("ES_PORT")
-	connectionString := "http://" + esHost + ":" + esPort
+	connectionString := esProto + "://" + esHost + ":" + esPort
 	connectionStringRedacted := connectionString
 	outStr := "ElasticSearch connection string: " + connectionStringRedacted + "\n"
 	ctx := context.Background()
