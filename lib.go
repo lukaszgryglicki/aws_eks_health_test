@@ -54,10 +54,10 @@ func PgHealth() (string, int) {
 	pgSSL := os.Getenv("PG_SSL")
 	pgPassRedacted := fmt.Sprintf("len=%d", len(pgPass))
 	connectionString := "client_encoding=UTF8 sslmode='" + pgSSL + "' host='" + pgHost + "' port=" + pgPort + " dbname='" + pgDB + "' user='" + pgUser + "' password='" + pgPass + "'"
-	connectionStringRedacted := strings.Replace(connectionString, pgPass, pgPassRedacted, -1)
+	connectionStringRedacted := strings.Replace(connectionString, "password='"+pgPass+"'", "password='"+pgPassRedacted+"'", -1)
 	outStr := "Postgres connection string: " + connectionStringRedacted + "\n"
 	con, err := sql.Open("postgres", connectionString)
-	conRedacted := strings.Replace(fmt.Sprintf("%+v", con), pgPass, pgPassRedacted, -1)
+	conRedacted := strings.Replace(fmt.Sprintf("%+v", con), "password='"+pgPass+"'", "password='"+pgPassRedacted+"'", -1)
 	outStr += fmt.Sprintf("Connection result:\nConnection: '%+v'\n", conRedacted)
 	if err != nil {
 		outStr += fmt.Sprintf("Error: '%+v'\n", err)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 type handlerContext struct {
@@ -43,6 +44,7 @@ func outputStatus(status string, errs []int) {
 }
 
 func main() {
+	ts := time.Now()
 	status := ""
 	errs := []int{}
 	result, nerrs := lib.PgHealth()
@@ -51,5 +53,7 @@ func main() {
 	result, nerrs = lib.ESHealth()
 	status += result
 	errs = append(errs, nerrs)
+	te := time.Now()
+	status += fmt.Sprintf("Took: %v\n", te.Sub(ts))
 	outputStatus(status, errs)
 }
