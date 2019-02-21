@@ -1,6 +1,6 @@
 # ekshealthtest
 
-`ekshealthtest` is a health test for AWS EKS deployment - test connecting to other infra parts for use on K8s. you can run it manually/locally.
+`ekshealthtest` is a health test for AWS EKS deployment - test connecting to other infra parts for use on K8s. You can run it manually/locally.
 
 # Running locally
 
@@ -28,3 +28,7 @@ To run from docker you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envi
 # Running from docker from the AWS instance
 
 - `SKIP_HTTP=1 PG_SSL=disable PG_HOST="aurora_db_url" PG_PORT=aurora_port PG_USER=sa PG_DB=postgres PG_PASS="aurora_db_pass" ES_HOST="es_host" ES_PORT=es_port ES_PROTO="https" ./docker_run.sh docker_username`
+
+# Running from the EKS Kubernetes cluster
+
+- `AWS_PROFILE=... ES_HOST=... ./kubernetes_run.sh`.
