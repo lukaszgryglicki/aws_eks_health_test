@@ -31,4 +31,4 @@ To run from docker you need to set all `PG_*`, `ES_*` and `EKS_HEALTH_PORT` envi
 
 # Running from the EKS Kubernetes cluster
 
-- `AWS_PROFILE=... ES_HOST=... ./kubernetes_run.sh`.
+- `AWS_PROFILE=... ES_HOST=... PG_HOST=... PG_PASS=... PG_USER=... ./kubernetes_run.sh`.
